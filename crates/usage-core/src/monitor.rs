@@ -184,7 +184,7 @@ async fn poll(
 }
 enum Event {
     Command(Option<Control>),
-    Connected(Result<Client, UsageError>),
+    Connected(Result<Box<Client>, UsageError>),
     Polled(Result<UsageSnapshot, UsageError>),
     Notification(Result<Value, UsageError>),
     Tick,
@@ -213,7 +213,7 @@ async fn worker(
         } else if client.is_none() {
             tokio::select! { biased;
                 cmd = controls.recv() => Event::Command(cmd),
-                result = Client::connect(&config.codex_path, Duration::from_secs(15)) => Event::Connected(result),
+                result = Client::connect(&config.codex_path, Duration::from_secs(15)) => Event::Connected(result.map(Box::new)),
             }
         } else if needs_poll {
             let connection = client.as_mut().expect("checked connection");
@@ -263,7 +263,7 @@ async fn worker(
                 let _ = ack.send(());
             }
             Event::Connected(Ok(c)) => {
-                client = Some(c);
+                client = Some(*c);
                 needs_poll = true;
             }
             Event::Polled(Ok(snapshot)) => {

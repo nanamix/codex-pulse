@@ -41,7 +41,9 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: cargo build -p usage-test-server
+      - run: cargo fmt --all -- --check
       - run: cargo test --workspace --locked
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
