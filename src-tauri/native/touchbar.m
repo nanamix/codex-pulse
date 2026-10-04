@@ -11,7 +11,7 @@ static NSTouchBarItemIdentifier const UsageItem = @"com.nanamix.codex-usage-moni
 @implementation UsageTouchBarController
 - (instancetype)init {
     if ((self = [super init])) {
-        _text = @"Codex 정보 없음";
+        _text = @"Codex 5xLite —";
         _bar = [[NSTouchBar alloc] init];
         _bar.delegate = self;
         _bar.defaultItemIdentifiers = @[UsageItem];
@@ -41,7 +41,7 @@ void codex_touchbar_update(void *pointer, bool enabled, const char *text) {
             objc_setAssociatedObject(window, &UsageTouchBarKey, controller, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             window.touchBar = controller.bar;
         }
-        controller.text = text ? ([NSString stringWithUTF8String:text] ?: @"Codex 정보 없음") : @"Codex 정보 없음";
+        controller.text = text ? ([NSString stringWithUTF8String:text] ?: @"Codex 5xLite —") : @"Codex 5xLite —";
         if (controller.label) controller.label.stringValue = controller.text;
     }
 }

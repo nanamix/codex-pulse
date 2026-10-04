@@ -41,7 +41,7 @@ pub fn create_tray(app: &AppHandle) -> tauri::Result<()> {
         .build(app)?;
     Ok(())
 }
-pub fn label(state: &MonitorState, settings: &Settings) -> String {
+pub fn label(state: &MonitorState, settings: &Settings, name: &str) -> String {
     let bucket = state.snapshot.as_ref().and_then(|s| {
         s.buckets
             .iter()
@@ -51,15 +51,15 @@ pub fn label(state: &MonitorState, settings: &Settings) -> String {
     let window = bucket.and_then(|b| b.primary.as_ref().or(b.secondary.as_ref()));
     match window {
         Some(w) => format!(
-            "Pulse {:.0}%{}",
+            "{name} {:.0}%{}",
             w.remaining_percent(),
             if state.stale { " ⚠" } else { "" }
         ),
-        None => "Pulse —".into(),
+        None => format!("{name} —"),
     }
 }
 pub fn update(app: &AppHandle, state: &MonitorState, settings: &Settings) {
-    let text = label(state, settings);
+    let text = label(state, settings, "Pulse");
     if let Some(tray) = app.tray_by_id("usage") {
         #[cfg(target_os = "macos")]
         let _ = tray.set_title(Some(text.as_str()));
@@ -74,6 +74,7 @@ pub fn update(app: &AppHandle, state: &MonitorState, settings: &Settings) {
         let _ = tray.set_tooltip(Some(tooltip.as_str()));
     }
     if let Some(window) = app.get_webview_window("main") {
+        let text = label(state, settings, "Codex 5xLite");
         let _ = touchbar::update(&window, settings.show_touchbar, &text);
     }
 }
@@ -92,7 +93,7 @@ pub fn apply(app: &AppHandle, settings: &Settings) -> Result<(), String> {
             window.hide()
         }
         .map_err(|e| e.to_string())?;
-        touchbar::update(&window, settings.show_touchbar, "Codex 정보 없음")?;
+        touchbar::update(&window, settings.show_touchbar, "Codex 5xLite —")?;
     }
     Ok(())
 }
