@@ -6,6 +6,10 @@ Codex의 잔여 한도와 초기화 시각을 한눈에 보여주는 Rust + Taur
 
 [릴리스 다운로드](https://github.com/nanamix/codex-pulse/releases) · [플랫폼 검사](https://github.com/nanamix/codex-pulse/actions/workflows/ci.yml)
 
+![Codex Pulse 설정 화면](docs/images/codex-pulse-settings.jpg)
+
+계정 데이터 없는 브라우저 설정 미리보기입니다. 실제 사용량은 네이티브 앱에서 확인합니다.
+
 ## 주요 기능
 
 - 대표 한도의 잔여율을 큰 숫자로 표시하고, 서버가 제공한 기간과 초기화 시각을 함께 확인합니다.
