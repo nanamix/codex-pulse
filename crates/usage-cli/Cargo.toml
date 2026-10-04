@@ -1,0 +1,12 @@
+[package]
+name = "usage-cli"
+version = "0.1.0"
+edition = "2021"
+[[bin]]
+name = "codex-usage"
+path = "src/main.rs"
+[dependencies]
+usage-core = { path = "../usage-core" }
+serde_json.workspace = true
+tokio.workspace = true
+clap = { version = "4", features = ["derive"] }

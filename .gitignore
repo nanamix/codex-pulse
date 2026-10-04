@@ -1,0 +1,18 @@
+/target/
+/node_modules/
+/dist/
+.DS_Store
+.env*
+.superpowers/
+__pycache__/
+
+# Local operational evidence and machine-specific generated files
+/operations/
+/src-tauri/gen/
+/AGENTS.md
+/docs/design-proposal.md
+/docs/superpowers/
+/scripts/sync-wiki.py
+/scripts/run-check.py
+/scripts/verify.sh
+/tests/test_sync_wiki.py
